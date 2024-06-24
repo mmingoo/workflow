@@ -1,0 +1,37 @@
+name: Am I Owal
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 매일 자정에 실행
+  push:
+    branches:
+      - main # main 브랜치에 푸시될 때 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install am-i-owal
+
+    - name: Generate development pattern
+      run: am-i-owal
+
+    - name: Commit results
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add owal_stats.svg
+        git commit -m 'Update development pattern'
+        git push
