@@ -55,4 +55,3 @@ jobs:
         git add owal_stats.svg
         git commit -m 'Update GitHub activity pattern'
         git push
-
